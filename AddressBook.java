@@ -1,8 +1,5 @@
-package FinalProject;
-/**
- *
- * @author coleb
- */
+package tts_final_project;
+
 public class AddressBook {
     
     private String firstName;
@@ -10,11 +7,11 @@ public class AddressBook {
     private String phoneNumber;
     private String emailAddress;
     
-    public AddressBook(String fN, String lN, String pN, String eA) {
-        this.firstName = fN;
-        this.lastName = lN;
-        this.phoneNumber = pN;
-        this.emailAddress = eA;
+    public AddressBook(String first, String last, String phone, String email) {
+        this.firstName = first;
+        this.lastName = last;
+        this.phoneNumber = phone;
+        this.emailAddress = email;
     }
     
     public String getFirstName() {

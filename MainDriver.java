@@ -1,32 +1,26 @@
-package FinalProject;
+package tts_final_project;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
-/**
- *
- * @author coleb
- */
+
 public class MainDriver {
-    
     public static void main(String args[]) {
-        
-        Scanner input = new Scanner(System.in);
+        Scanner in = new Scanner(System.in);
         List<AddressBook> addressBook = new ArrayList<>();
+        int opt1;
+        int opt2;
+        boolean diff;
+        boolean removed;
         boolean continueLoop = true;
-        int userOption;
-        int userOption2;
         String first;
         String last;
         String phone;
         String email;
-        boolean unique;
         String temp;
-        boolean removed;
         
         while (continueLoop) {
-           
             System.out.println("1) Add an Entry\n"
                              + "2) Remove an Entry\n"
                              + "3) Search for a specific Entry\n"
@@ -34,69 +28,54 @@ public class MainDriver {
                              + "5) Delete Book\n"
                              + "6) Quit\n\n"
                              + "Please choose what you'd like to do with the database:");
-            
             try{
-                userOption = input.nextInt();
+                opt1 = in.nextInt();
             } catch(InputMismatchException e) {
                 System.out.println("\nPlease enter a valid input type.");
-                userOption = 100;
-                
-                    input.nextLine();
-                
+                opt1 = 100;
+                    in.nextLine();
             }
-  
-            switch(userOption) {
+            switch(opt1) {
                 case 1:
-                    //add an entry
-                    System.out.println("Enter their first name: ");
-                    first = input.next();
-                    System.out.println("Enter their last name: ");
-                    last = input.next();
-                    System.out.println("Enter their phone number: ");
-                    phone = input.next();
-                    System.out.println("Enter their email address: ");
-                    email = input.next();
-                    
+                    System.out.println("First Name: ");
+                    first = in.next();
+                    System.out.println("Last Name: ");
+                    last = in.next();
+                    System.out.println("Phone Number: ");
+                    phone = in.next();
+                    System.out.println("Email Address: ");
+                    email = in.next();
                     if(!email.contains("@")) {
                         while (!email.contains("@")) {
-                            System.out.println("Please enter a valid email address: ");
-                            email = input.next();
-                            input.nextLine();
+                            System.out.println("Insert email again please: ");
+                            email = in.next();
+                            in.nextLine();
                         }
                     }
-                    
-                    unique = checkEmail(email, addressBook);
-                    
-                        while (!unique) {
-                            System.out.println("Enter a unique email address: ");
-                            email = input.nextLine();
-                            unique = checkEmail(email, addressBook);
+                    diff = checkEmail(email, addressBook);
+                        while (!diff) {
+                            System.out.println("Please enter a unique email address: ");
+                            email = in.nextLine();
+                            diff = checkEmail(email, addressBook);
                         }
-                    
-                    
                     addressBook.add(new AddressBook(first,last,phone,email));
-                    System.out.println("\nNew entry added successfully\n");
-                    
+                    System.out.println("\nSuccessfully Added!\n");
                     break;
+                    
                 case 2:
-                    //remove an entry
                     email = "";
                     removed = false;
                     if(addressBook.isEmpty()) {
                         System.out.println("\nAddress book is already empty. Nothing to remove.\n");
                         break;
                     }
-      
-                    System.out.println("Enter an entry's email you want to remove:");
-                    email = input.next();
-                    input.nextLine();
-                    
+                    System.out.println("Please enter email you want to remove: ");
+                    email = in.next();
+                    in.nextLine();
                     System.out.println("You selected Email: " + email);
-                    
                     for (int i = 0; i < addressBook.size(); i++) {
                         if(addressBook.get(i).getEmail().equalsIgnoreCase(email)) {
-                            System.out.println("Removing the following entry: ");
-                            System.out.println(addressBook.get(i).toString());
+                            System.out.println("Removing the following entry: " + addressBook.get(i).toString());
                             addressBook.remove(i);
                             removed = true;
                             break;
@@ -105,38 +84,30 @@ public class MainDriver {
                     if(!removed){
                         System.out.println("\nEntry not found. No entry removed.\n"); 
                     }
-                    
                     break;
-                case 3:
-                    //search for a specific entry
                     
+                case 3:
                     if (addressBook.isEmpty()) {
-                        System.out.println("Address book is empty. Returning to main menu");
+                        System.out.println("Address book is already empty. Returning back to main menu.");
                         break;
                     }
-                    
                     System.out.println("\nSelect of of the following options to search by:\n");
                     System.out.println("1) First Name\n"
                                      + "2) Last Name\n"
                                      + "3) PhoneNumber\n"
                                      + "4) Email\n");
-                    
                     try{
-                        userOption2 = input.nextInt();
+                    	opt2 = in.nextInt();
                     } catch(InputMismatchException e) {
                         System.out.println("\nPlease enter a valid input type.");
-                        userOption2 = 100;
-                
-                        input.nextLine();
+                        opt2 = 100;
+                        in.nextLine();
                     }
-                    
-                    switch(userOption2) {
+                    switch(opt2) {
                         case 1:
-                            //first
-                            System.out.println("Enter your search: ");
-                            temp = input.next();
+                            System.out.println("Search: ");
+                            temp = in.next();
                             temp = temp.toLowerCase();
-                            
                             for (int i =0; i<addressBook.size(); i++) {
                                 if(addressBook.get(i).getFirstName().toLowerCase().contains(temp)){
                                     System.out.println("*************************\n"
@@ -144,14 +115,12 @@ public class MainDriver {
                                             "\n*************************\n");
                                 }
                             }
-                            
                             break;
                         case 2:
                             //last
-                            System.out.println("Enter your search: ");
-                            temp = input.next();
+                            System.out.println("Search: ");
+                            temp = in.next();
                             temp = temp.toLowerCase();
-                            
                             for (int i =0; i<addressBook.size(); i++) {
                                 if(addressBook.get(i).getLastName().toLowerCase().contains(temp)){
                                     System.out.println("*************************\n"
@@ -159,13 +128,10 @@ public class MainDriver {
                                             "\n*************************\n");
                                 }
                             }
-                            
                             break;
                         case 3:
-                            //phone
-                            System.out.println("Enter your search: ");
-                            temp = input.next();
-                            
+                            System.out.println("Search: ");
+                            temp = in.next();
                             for (int i =0; i<addressBook.size(); i++) {
                                 if(addressBook.get(i).getPhoneNumber().contains(temp)){
                                     System.out.println("*************************\n"
@@ -175,11 +141,9 @@ public class MainDriver {
                             }
                             break;
                         case 4:
-                            //email
                             System.out.println("Enter your search: ");
-                            temp = input.next();
-                            temp = temp.toLowerCase(); //TODO: check that @ key can be handled
-                            
+                            temp = in.next();
+                            temp = temp.toLowerCase();
                             for (int i =0; i<addressBook.size(); i++) {
                                 if(addressBook.get(i).getEmail().toLowerCase().contains(temp)){
                                     System.out.println("*************************\n"
@@ -189,15 +153,13 @@ public class MainDriver {
                             }
                             break;
                         default:
-                            System.out.println("Enter valid input 1-4.\nReturning to main menu.");
+                            System.out.println("Please enter a valid input between 1-4.\nReturning back to main menu.");
                     }
 
-                    
                     break;
                 case 4:
-                    //print address book
                     if(addressBook.isEmpty()) {
-                        System.out.println("\nAddress book is already empty\n");
+                        System.out.println("\nAddress book is already empty.\n");
                         break;
                     }
                     for (int i = 0; i < addressBook.size(); i++) {
@@ -205,24 +167,22 @@ public class MainDriver {
                     }
                     break;
                 case 5: 
-                    //delete address book
                     addressBook.clear();
                     if(addressBook.isEmpty()) {
-                        System.out.println("Successfully deleted the address book");
+                        System.out.println("Successfully deleted the address book!");
                     }
                     else {
-                        System.out.println("Something went wrong trying to delete this");
+                        System.out.println("Something went wrong trying to delete this. Please try again later.");
                     }
                     break;
                 case 6:
                     continueLoop = false;
                     break;
                 default:
-                    System.out.println("Please enter an integer range 1-6.\n");
+                    System.out.println("Please enter a valid input between 1-6.\n");
             }
-                  
         }
-        
+        in.close();
     }
     
     public static boolean checkEmail(String email, List<AddressBook> list) {
@@ -236,5 +196,4 @@ public class MainDriver {
         }
         return true;
     }
-    
 }
